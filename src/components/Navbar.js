@@ -2,8 +2,6 @@ import React, { useContext } from 'react';
 import UserContext from '../contexts/UserContext';
 
 const Navbar = () => {
-	console.log('Navbar');
-
 	const { user, login, logout } = useContext(UserContext);
 
 	return (

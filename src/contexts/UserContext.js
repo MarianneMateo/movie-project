@@ -8,26 +8,34 @@ const initialUser = {
 	favoriteMovies: [1, 2, 3],
 };
 
-const UserProvider = ({children}) => {
+const UserProvider = ({ children }) => {
+	const [user, setUser] = useState(initialUser);
 
-  const [user, setUser] = useState(initialUser);
+	const login = () => {
+		setUser(initialUser);
+	};
 
-  const data = {user, login, logout}
+	const logout = () => {
+		setUser(null);
+	};
 
-  const login = () => {
-    setUser(initialUser);
-  }
+	const toggleFavoriteMovieToUser = (movieId) => {
 
-  const logout = () => {
-    setUser(null);
-  }
+		const isFavorite = user.favoriteMovies.includes(movieId);
 
-  return (
-    <UserContext.Provider value={data}>
-      {children}
-    </UserContext.Provider>
-  )
-}
+		const favoriteMovies = isFavorite
+			? user.favoriteMovies.filter((favMovId) => favMovId != movieId)
+			: [...user.favoriteMovies, movieId];
 
-export { UserProvider }
+		setUser({
+			...user,
+			favoriteMovies,
+		});
+	};
+	const data = { user, login, logout, toggleFavoriteMovieToUser };
+
+	return <UserContext.Provider value={data}>{children}</UserContext.Provider>;
+};
+
+export { UserProvider };
 export default UserContext;
